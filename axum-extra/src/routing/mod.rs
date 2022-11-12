@@ -1,5 +1,6 @@
 //! Additional types for defining routes.
 
+#[allow(unused_imports)]
 use axum::{handler::Handler, Router};
 
 mod resource;

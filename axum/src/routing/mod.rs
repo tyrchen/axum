@@ -46,7 +46,7 @@ pub use self::method_routing::{
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-struct RouteId(u32);
+pub(crate) struct RouteId(u32);
 
 impl RouteId {
     fn next() -> Self {
@@ -63,10 +63,10 @@ impl RouteId {
 
 /// The router type for composing handlers and services.
 pub struct Router<B = Body> {
-    routes: HashMap<RouteId, Endpoint<B>>,
-    node: Arc<Node>,
-    fallback: Fallback<B>,
-    nested_at_root: bool,
+    pub(crate) routes: HashMap<RouteId, Endpoint<B>>,
+    pub(crate) node: Arc<Node>,
+    pub(crate) fallback: Fallback<B>,
+    pub(crate) nested_at_root: bool,
 }
 
 impl<B> Clone for Router<B> {
@@ -425,7 +425,7 @@ where
     }
 
     #[inline]
-    fn call_route(
+    pub(crate) fn call_route(
         &self,
         match_: matchit::Match<&RouteId>,
         mut req: Request<B>,
@@ -551,7 +551,7 @@ where
     }
 }
 
-fn replace_path(uri: &Uri, new_path: &str) -> Option<Uri> {
+pub(crate) fn replace_path(uri: &Uri, new_path: &str) -> Option<Uri> {
     let mut new_path_and_query = new_path.to_owned();
     if let Some(query) = uri.query() {
         new_path_and_query.push('?');
@@ -566,7 +566,7 @@ fn replace_path(uri: &Uri, new_path: &str) -> Option<Uri> {
 
 /// Wrapper around `matchit::Router` that supports merging two `Router`s.
 #[derive(Clone, Default)]
-struct Node {
+pub(crate) struct Node {
     inner: matchit::Router<RouteId>,
     route_id_to_path: HashMap<RouteId, Arc<str>>,
     path_to_route_id: HashMap<Arc<str>, RouteId>,
@@ -589,7 +589,7 @@ impl Node {
         Ok(())
     }
 
-    fn at<'n, 'p>(
+    pub(crate) fn at<'n, 'p>(
         &'n self,
         path: &'p str,
     ) -> Result<matchit::Match<'n, 'p, &'n RouteId>, MatchError> {
@@ -605,7 +605,7 @@ impl fmt::Debug for Node {
     }
 }
 
-enum Fallback<B, E = Infallible> {
+pub(crate) enum Fallback<B, E = Infallible> {
     Default(Route<B, E>),
     Custom(Route<B, E>),
 }
@@ -640,7 +640,7 @@ impl<B, E> Fallback<B, E> {
     }
 }
 
-enum Endpoint<B> {
+pub(crate) enum Endpoint<B> {
     MethodRouter(MethodRouter<B>),
     Route(Route<B>),
 }

@@ -112,7 +112,7 @@ impl<B, E> RouteFuture<B, E> {
         }
     }
 
-    pub(super) fn from_response(response: Response) -> Self {
+    pub(crate) fn from_response(response: Response) -> Self {
         Self {
             kind: RouteFutureKind::Response {
                 response: Some(response),
