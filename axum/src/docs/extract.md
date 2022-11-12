@@ -309,7 +309,7 @@ options:
 1. Use `Result<T, T::Rejection>` as your extractor like shown in ["Optional
    extractors"](#optional-extractors). This works well if you're only using
    the extractor in a single handler.
-2. Create your own extractor that in its [`FromRequest`] implemention calls
+2. Create your own extractor that in its [`FromRequest`] implementation calls
    one of axum's built in extractors but returns a different response for
    rejections. See the [customize-extractor-error] example for more details.
 
@@ -480,7 +480,7 @@ where
     type Rejection = Response;
 
     async fn from_request(req: &mut RequestParts<B>) -> Result<Self, Self::Rejection> {
-        let TypedHeader(Authorization(token)) = 
+        let TypedHeader(Authorization(token)) =
             TypedHeader::<Authorization<Bearer>>::from_request(req)
                 .await
                 .map_err(|err| err.into_response())?;

@@ -142,7 +142,7 @@ use http::Uri;
 ///
 /// ## Customizing the rejection
 ///
-/// By default the rejection used in the [`FromRequest`] implemetation will be [`PathRejection`].
+/// By default the rejection used in the [`FromRequest`] implementation will be [`PathRejection`].
 ///
 /// That can be customized using `#[typed_path("...", rejection(YourType))]`:
 ///
@@ -219,7 +219,7 @@ pub trait TypedPath: std::fmt::Display {
     ///
     /// # Panics
     ///
-    /// The default implementation parses the required [`Display`] implemetation. If that fails it
+    /// The default implementation parses the required [`Display`] implementation. If that fails it
     /// will panic.
     ///
     /// Using `#[derive(TypedPath)]` will never result in a panic since it percent-encodes

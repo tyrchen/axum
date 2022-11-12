@@ -388,7 +388,7 @@
 )]
 #![deny(unreachable_pub, private_in_public)]
 #![allow(elided_lifetimes_in_paths, clippy::type_complexity)]
-#![forbid(unsafe_code)]
+// #![forbid(unsafe_code)]
 #![cfg_attr(docsrs, feature(doc_auto_cfg, doc_cfg))]
 #![cfg_attr(test, allow(clippy::float_cmp))]
 
@@ -400,6 +400,7 @@ mod extension;
 mod form;
 #[cfg(feature = "json")]
 mod json;
+mod reloadable;
 #[cfg(feature = "headers")]
 mod typed_header;
 mod util;
@@ -443,6 +444,9 @@ pub use self::form::Form;
 
 #[doc(inline)]
 pub use axum_core::{BoxError, Error};
+
+#[doc(inline)]
+pub use reloadable::ReloadableRouterService;
 
 #[cfg(feature = "macros")]
 pub use axum_macros::debug_handler;
